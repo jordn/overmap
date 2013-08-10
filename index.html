@@ -1,8 +1,84 @@
-<html>
+<!doctype html>
 <head>
+  <meta charset="utf-8">
+
   <title>Overmap</title>
+  <meta name="description" content="My Parse App">
+  <meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" type="text/css" href="dist/css/bootstrap.css">
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+  <script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.2.8.min.js"></script>
+
+  <style>
+  body {
+    background-image: url(img/bridge.jpg)
+  }
+
+  .signup {
+    background-color:rgba(255,255,255,0.8);
+    border-radius: 10px;
+    margin-top:200px;
+    padding: 20px;
+    text-align: left;
+  }
+
+  .signup h1{
+    text-align:center;
+  }
+  </style>
 </head>
+
 <body>
-Hello
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-4 col-lg-offset-4 signup">
+        <h1>Overmap</h1>
+        <p>We do stuff with data</p>
+        <p>Sign-up</p>
+        <div id="form-container">
+          <form id="signup-form" data-validate="parsley">
+
+            <label for="email">Email * :</label>
+            <input type="text" id="email" name="email" data-trigger="change" data-required="true" data-type="email" />
+
+            <label for="message">Why do you want to use:</label>
+            <textarea id="message" name="message" data-trigger="keyup" data-rangelength="[0,200]"></textarea>
+            <button class="btn btn-default">Submit</button>
+          </form>
+        </div>
+        <div class="success hidden">
+          SUCCESS
+        </div>
+
+        <div class="error hidden">
+          ERROR
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript">
+    Parse.initialize("88Yp5B6VgYasxFJvhWslBPClBqse0TYpnD4nJw1j", "hdFjQl5Z2Q3EDiXL4LZzfaMkOeSbEP3s8WnleQie");
+      $(function(){
+        $("form").submit(function(e){
+          if ($('form').parsley('validate')) {
+            var User = Parse.Object.extend("Signup");
+            var user = new User();
+
+            user.set("email", $("#email").val());
+            user.set("message", $("#message").val());
+            console.log(user);
+            user.save();
+
+            $('#form-container').replaceWith('<p>Thanks for signing up!</p>');
+          }
+          e.preventDefault();
+        });
+      });
+
+  </script>
+  <script type="text/javascript" src="dist/js/parsley.js"></script>
 </body>
+
 </html>
